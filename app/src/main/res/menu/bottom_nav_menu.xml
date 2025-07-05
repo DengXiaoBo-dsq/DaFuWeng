@@ -1,0 +1,18 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_participation"
+        android:title="@string/participation"
+        android:icon="@drawable/ic_participation" />
+    <item
+        android:id="@+id/nav_family"
+        android:title="@string/family"
+        android:icon="@drawable/ic_family" />
+    <item
+        android:id="@+id/nav_rich"
+        android:title="@string/rich"
+        android:icon="@drawable/ic_rich" />
+    <item
+        android:id="@+id/nav_account"
+        android:title="@string/account"
+        android:icon="@drawable/ic_account" />
+</menu>

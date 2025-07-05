@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <!-- 网络访问权限 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:name=".LotteryApplication"
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.DaFuWeng"
+        tools:targetApi="31">
+
+        <!-- 启动Activity -->
+
+        <!-- 将LauncherActivity设为启动活动 -->
+        <activity
+            android:name=".activity.LauncherActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.MainActivity"/>
+
+
+        <!-- 用户认证相关Activity -->
+        <activity
+            android:name=".activity.LoginActivity"
+            android:exported="false"
+            android:label="@string/login_title"
+            android:theme="@style/Theme.DaFuWeng.NoActionBar" />
+
+        <activity
+            android:name=".activity.RegisterActivity"
+            android:exported="false"
+            android:label="@string/register_title"
+            android:theme="@style/Theme.DaFuWeng.NoActionBar" />
+
+        <!-- 功能模块Activity -->
+        <activity
+            android:name=".activity.FamilyActivity"
+            android:exported="false"
+            android:label="@string/family_title" />
+
+        <activity
+            android:name=".activity.RichActivity"
+            android:exported="false"
+            android:label="@string/rich_title" />
+
+        <!-- 金融相关Activity -->
+        <activity
+            android:name=".activity.RechargeActivity"
+            android:exported="false"
+            android:label="@string/recharge_title" />
+
+        <activity
+            android:name=".activity.WithdrawActivity"
+            android:exported="false"
+            android:label="@string/withdraw_title" />
+
+        <!-- 其他活动 -->
+
+        <activity android:name=".activity.ForgotPasswordActivity" />
+
+    </application>
+
+</manifest>
