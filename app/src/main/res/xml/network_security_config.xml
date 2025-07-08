@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <network-security-config>
+    <!-- 允许与 192.168.1.10（你的服务端IP）的明文通信 -->
     <domain-config cleartextTrafficPermitted="true">
+        <domain includeSubdomains="true">192.168.1.10</domain>
+        <!-- 如果之前的配置有其他IP（如10.0.2.2），可以保留 -->
         <domain includeSubdomains="true">10.0.2.2</domain>
     </domain-config>
 </network-security-config>

@@ -106,14 +106,18 @@ public class RetrofitClient {
     private static Application application;
 
     private RetrofitClient() {
-        // 初始化OkHttpClient
-        OkHttpClient client = createOkHttpClient();
+        // 在 RetrofitClient.java 中添加日志拦截器
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
-        // 初始化Retrofit，使用BuildConfig中的BASE_URL
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(loggingInterceptor)
+                .build();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(BASE_URL)
-                .client(client)
                 .addConverterFactory(GsonConverterFactory.create())
+                .client(client)
                 .build();
 
         // 创建API服务实例

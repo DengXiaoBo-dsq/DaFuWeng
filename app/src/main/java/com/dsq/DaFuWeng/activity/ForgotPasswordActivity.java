@@ -11,6 +11,7 @@ import com.dsq.DaFuWeng.R;
 import com.dsq.DaFuWeng.utils.PhoneUtil;
 import com.dsq.DaFuWeng.viewModel.AuthViewModel;
 import androidx.lifecycle.ViewModelProvider;
+import java.util.HashMap;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText etPhone, etVerifyCode, etNewPassword;
@@ -21,7 +22,6 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-
         authViewModel = new ViewModelProvider(this).get(AuthViewModel.class);
         initViews();
         initListeners();
@@ -46,13 +46,9 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             Toast.makeText(this, "请输入正确的11位手机号码", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // 调用获取验证码API
-        authViewModel.getVerifyCode(phone).observe(this, response -> {
+        authViewModel.sendVerificationCode(phone, 3).observe(this, response -> {
             if (response != null && response.isSuccess()) {
                 Toast.makeText(this, "验证码已发送至" + phone, Toast.LENGTH_SHORT).show();
-                // 启动倒计时
-                startCountdown();
             } else {
                 Toast.makeText(this, "获取验证码失败：" +
                                 (response != null ? response.getMessage() : "未知错误"),
@@ -65,23 +61,18 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         String phone = etPhone.getText().toString().trim();
         String verifyCode = etVerifyCode.getText().toString().trim();
         String newPassword = etNewPassword.getText().toString().trim();
-
         if (!PhoneUtil.isPhoneValid(phone)) {
             Toast.makeText(this, "请输入正确的11位手机号码", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (TextUtils.isEmpty(verifyCode) || verifyCode.length() != 6) {
             Toast.makeText(this, "请输入6位验证码", Toast.LENGTH_SHORT).show();
             return;
         }
-
         if (TextUtils.isEmpty(newPassword) || newPassword.length() < 8) {
             Toast.makeText(this, "密码长度不能小于8位", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // 调用重置密码API
         authViewModel.resetPassword(phone, newPassword, verifyCode).observe(this, response -> {
             if (response != null && response.isSuccess()) {
                 Toast.makeText(this, "密码重置成功，请使用新密码登录", Toast.LENGTH_SHORT).show();
@@ -92,11 +83,5 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void startCountdown() {
-        // 实现倒计时逻辑，禁用按钮并显示剩余时间
-        // 示例代码，需要根据实际情况实现
-        // 建议使用CountDownTimer类
     }
 }
