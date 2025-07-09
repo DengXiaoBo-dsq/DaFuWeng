@@ -102,9 +102,7 @@ public class FamilyFragment extends Fragment {
         });
     }
 
-    /**
-     * 参与指定档次的合家欢活动
-     */
+    // FamilyFragment.java
     private void participateInLevel(int level) {
         if (getContext() instanceof MainActivity && level >= 1 && level <= 4) {
             MainActivity mainActivity = (MainActivity) getContext();
@@ -118,20 +116,31 @@ public class FamilyFragment extends Fragment {
                     userRepository.participateByTypeAndLevel(userId, 2, level)
                             .thenAccept(response -> {
                                 if (response != null && response.isSuccess()) {
-                                    // 更新余额
+                                    // 更新余额（已有逻辑保留）
                                     double newBalance = currentUser.getBalance() - requiredAmount;
                                     currentUser.setBalance(newBalance);
                                     SharedPrefsUtil.getInstance(getContext()).saveUser(currentUser);
                                     mainActivity.updateBalance(newBalance);
 
-                                    // 刷新当前档次的参与者列表和人数
-                                    loadFamilyParticipants();
-                                    loadTotalFamilyParticipants();
+                                    // 强制刷新：无论之前状态如何，重新获取活动ID并刷新数据
+                                    getActivityIdByTypeAndLevel(2, level) // 用当前参与的level，而非currentSelectedLevel
+                                            .thenAccept(activityId -> {
+                                                if (activityId != null) {
+                                                    loadFamilyParticipants(); // 刷新列表
+                                                    loadTotalFamilyParticipants(); // 刷新人数
+                                                } else {
+                                                    // 活动ID获取失败时，仍尝试刷新（可能服务端延迟）
+                                                    getActivity().runOnUiThread(() ->
+                                                            Toast.makeText(getContext(), "活动数据加载中...", Toast.LENGTH_SHORT).show()
+                                                    );
+                                                }
+                                            });
 
                                     getActivity().runOnUiThread(() ->
                                             Toast.makeText(getContext(), "参与成功", Toast.LENGTH_SHORT).show()
                                     );
                                 } else {
+                                    // 参与失败处理（已有逻辑保留）
                                     String message = response != null ? response.getMessage() : "参与失败";
                                     getActivity().runOnUiThread(() ->
                                             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show()
@@ -139,6 +148,7 @@ public class FamilyFragment extends Fragment {
                                 }
                             })
                             .exceptionally(e -> {
+                                // 网络错误处理（已有逻辑保留）
                                 getActivity().runOnUiThread(() ->
                                         Toast.makeText(getContext(), "网络错误: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                                 );
@@ -194,6 +204,7 @@ public class FamilyFragment extends Fragment {
     /**
      * 通过playType和level获取活动ID（合家欢专用）
      */
+    // FamilyFragment.java
     private CompletableFuture<Long> getActivityIdByTypeAndLevel(int playType, int level) {
         CompletableFuture<Long> future = new CompletableFuture<>();
         userRepository.getActivityByTypeAndLevel(playType, level)
@@ -202,7 +213,8 @@ public class FamilyFragment extends Fragment {
                         future.complete(((Number) activity.get("id")).longValue());
                     } else {
                         getActivity().runOnUiThread(() ->
-                                Toast.makeText(getContext(), "活动不存在", Toast.LENGTH_SHORT).show()
+                                // 明确提示活动ID获取失败，影响数据刷新
+                                Toast.makeText(getContext(), "活动数据获取失败，无法刷新列表", Toast.LENGTH_SHORT).show()
                         );
                         future.complete(null);
                     }

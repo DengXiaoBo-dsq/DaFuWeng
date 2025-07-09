@@ -2,6 +2,7 @@
 package com.dsq.DaFuWeng.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,9 @@ public class RichParticipantAdapter extends RecyclerView.Adapter<RichParticipant
     public void setParticipationsFromServer(List<HashMap<String, Object>> participations) {
         this.participations = participations;
         this.isHashMapData = true;
-        notifyDataSetChanged(); // 必须调用此方法刷新列表
+        // 添加日志验证数据是否正确传入
+        Log.d("Adapter", "刷新参与者列表，数量: " + (participations != null ? participations.size() : 0));
+        notifyDataSetChanged();
     }
 
     @NonNull

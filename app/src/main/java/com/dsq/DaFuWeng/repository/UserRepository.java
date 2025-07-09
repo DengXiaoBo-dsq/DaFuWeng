@@ -317,26 +317,25 @@ public class UserRepository {
         return future;
     }
 
-    // UserRepository.java
     /**
-     * 获取指定活动的参与人数
+     * 获取指定活动的参与人数（修复后）
      */
     public CompletableFuture<Integer> getActivityParticipantCount(Long activityId) {
         CompletableFuture<Integer> future = new CompletableFuture<>();
-        apiService.getActivityParticipantCount(activityId).enqueue(new Callback<ApiResponse<HashMap<String, Object>>>() {
+        apiService.getActivityParticipantCount(activityId).enqueue(new Callback<ApiResponse<Integer>>() {
             @Override
-            public void onResponse(Call<ApiResponse<HashMap<String, Object>>> call, Response<ApiResponse<HashMap<String, Object>>> response) {
+            public void onResponse(Call<ApiResponse<Integer>> call, Response<ApiResponse<Integer>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Object countObj = response.body().getData().get("data");
-                    int count = countObj instanceof Number ? ((Number) countObj).intValue() : 0;
-                    future.complete(count);
+                    // 直接获取Integer类型的data（服务器返回的数字）
+                    Integer count = response.body().getData();
+                    future.complete(count != null ? count : 0);
                 } else {
                     future.complete(0);
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<HashMap<String, Object>>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<Integer>> call, Throwable t) {
                 future.complete(0);
             }
         });
@@ -365,30 +364,26 @@ public class UserRepository {
         return future;
     }
 
+
     /**
-     * 获取指定活动的所有参与者
+     * 获取指定活动的所有参与者（修复后）
      */
     public CompletableFuture<List<HashMap<String, Object>>> getActivityParticipants(Long activityId) {
         CompletableFuture<List<HashMap<String, Object>>> future = new CompletableFuture<>();
-        apiService.getActivityParticipants(activityId).enqueue(new Callback<ApiResponse<HashMap<String, Object>>>() {
+        apiService.getActivityParticipants(activityId).enqueue(new Callback<ApiResponse<List<HashMap<String, Object>>>>() {
             @Override
-            public void onResponse(Call<ApiResponse<HashMap<String, Object>>> call, Response<ApiResponse<HashMap<String, Object>>> response) {
+            public void onResponse(Call<ApiResponse<List<HashMap<String, Object>>>> call, Response<ApiResponse<List<HashMap<String, Object>>>> response) {
                 if (response.isSuccessful() && response.body() != null && response.body().isSuccess()) {
-                    Object dataObj = response.body().getData().get("data");
-                    if (dataObj instanceof List) {
-                        // 强制转换为参与者列表（每个元素是包含userId、phone等的Map）
-                        List<HashMap<String, Object>> participants = (List<HashMap<String, Object>>) dataObj;
-                        future.complete(participants);
-                    } else {
-                        future.complete(new ArrayList<>());
-                    }
+                    // 直接获取List类型的data（服务器返回的参与者列表）
+                    List<HashMap<String, Object>> participants = response.body().getData();
+                    future.complete(participants != null ? participants : new ArrayList<>());
                 } else {
                     future.complete(new ArrayList<>());
                 }
             }
 
             @Override
-            public void onFailure(Call<ApiResponse<HashMap<String, Object>>> call, Throwable t) {
+            public void onFailure(Call<ApiResponse<List<HashMap<String, Object>>>> call, Throwable t) {
                 future.complete(new ArrayList<>());
             }
         });

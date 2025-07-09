@@ -113,24 +113,33 @@ public class RichFragment extends Fragment {
             if (userId != null && currentUser != null) {
                 double requiredAmount = levels[level - 1];
                 if (currentUser.getBalance() >= requiredAmount) {
-                    // 参与活动（大富翁playType=1）
                     userRepository.participateByTypeAndLevel(userId, 1, level)
                             .thenAccept(response -> {
                                 if (response != null && response.isSuccess()) {
-                                    // 更新余额
+                                    // 更新余额（已有逻辑保留）
                                     double newBalance = currentUser.getBalance() - requiredAmount;
                                     currentUser.setBalance(newBalance);
                                     SharedPrefsUtil.getInstance(getContext()).saveUser(currentUser);
                                     mainActivity.updateBalance(newBalance);
 
-                                    // 刷新当前档次的参与者列表和人数
-                                    loadRichParticipants();
-                                    loadTotalRichParticipants();
+                                    // 强制刷新：用当前参与的level获取活动ID
+                                    getActivityIdByTypeAndLevel(1, level)
+                                            .thenAccept(activityId -> {
+                                                if (activityId != null) {
+                                                    loadRichParticipants();
+                                                    loadTotalRichParticipants();
+                                                } else {
+                                                    getActivity().runOnUiThread(() ->
+                                                            Toast.makeText(getContext(), "活动数据加载中...", Toast.LENGTH_SHORT).show()
+                                                    );
+                                                }
+                                            });
 
                                     getActivity().runOnUiThread(() ->
                                             Toast.makeText(getContext(), "参与成功", Toast.LENGTH_SHORT).show()
                                     );
                                 } else {
+                                    // 参与失败处理（保留）
                                     String message = response != null ? response.getMessage() : "参与失败";
                                     getActivity().runOnUiThread(() ->
                                             Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show()
@@ -138,6 +147,7 @@ public class RichFragment extends Fragment {
                                 }
                             })
                             .exceptionally(e -> {
+                                // 网络错误处理（保留）
                                 getActivity().runOnUiThread(() ->
                                         Toast.makeText(getContext(), "网络错误: " + e.getMessage(), Toast.LENGTH_SHORT).show()
                                 );
@@ -149,6 +159,8 @@ public class RichFragment extends Fragment {
             }
         }
     }
+
+
 
     /**
      * 加载当前选中档次的大富翁参与者（所有用户）
