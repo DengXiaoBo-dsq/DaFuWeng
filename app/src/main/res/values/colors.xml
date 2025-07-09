@@ -15,4 +15,11 @@
     <color name="colorTextPrimary">#333333</color>
     <color name="colorTextSecondary">#666666</color>
     <color name="colorTextTertiary">#999999</color>
+    <color name="light_gray">#F0F0F0</color> <!-- 浅灰色（当前用户记录背景） -->
+    <color name="red">#FF0000</color> <!-- 红色（中奖状态） -->
+
+        <!-- 其他颜色... -->
+        <color name="green">#00FF00</color> <!-- 绿色（当前用户高亮） -->
+        <color name="black">#000000</color> <!-- 默认文字颜色 -->
+
 </resources>    

@@ -3,12 +3,62 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:padding="16dp">
 
+    <!-- 总参与人数 -->
     <TextView
+        android:id="@+id/tv_total_participants"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/rich_lottery"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:text="大富翁总参与: 0人"
+        android:textSize="16sp"
+        android:layout_marginBottom="16dp"/>
+
+
+    <!-- 参与者列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- 空状态提示 -->
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:text="暂无参与人员，欢迎参与！"
+        android:visibility="gone"/>
+    <!-- 参与按钮区域（四个档次） -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray">
+
+        <Button
+            android:id="@+id/btn_level_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_level_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_level_3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_level_4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+
+
 </LinearLayout>

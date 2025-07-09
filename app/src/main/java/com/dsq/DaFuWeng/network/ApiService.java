@@ -78,5 +78,32 @@ public interface ApiService {
     );
 
 
+    // 添加按类型和档次参与活动的接口
+    @POST("api/lottery/participate")
+    Call<ApiResponse<HashMap<String, Object>>> participateByTypeAndLevel(
+            @Query("userId") Long userId,
+            @Query("playType") Integer playType,
+            @Query("level") Integer level
+    );
 
+    @GET("api/lottery/activity/participant-count")
+    Call<ApiResponse<HashMap<String, Object>>> getActivityParticipantCount(
+            @Query("activityId") Long activityId
+    );
+
+    // 新增：获取指定活动的所有参与者
+    @GET("api/lottery/activity/participants")
+    Call<ApiResponse<HashMap<String, Object>>> getActivityParticipants(
+            @Query("activityId") Long activityId
+    );
+
+    /**
+     * 通过playType和level获取活动信息（含ID）
+     * 路径需与服务端完全一致
+     */
+    @GET("api/lottery/activity/type-level")
+    Call<ApiResponse<HashMap<String, Object>>> getActivityByTypeAndLevel(
+            @Query("playType") Integer playType,
+            @Query("level") Integer level
+    );
 }

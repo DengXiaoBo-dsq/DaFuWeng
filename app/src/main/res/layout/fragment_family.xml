@@ -2,13 +2,76 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:orientation="vertical">
 
+    <!-- 总参与人数 -->
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_total_participants"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/family_lottery"
-        android:textSize="24sp"
-        android:textStyle="bold" />
+        android:padding="10dp"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="14sp"/>
+
+    <!-- 参与者列表 -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
+
+    <!-- 空状态提示 -->
+    <TextView
+        android:id="@+id/tv_empty"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@android:color/darker_gray"
+        android:textSize="16sp"
+        android:visibility="gone"/>
+
+    <!-- 档次按钮区域（关键：ID必须与代码一致） -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:background="@android:color/darker_gray">
+
+        <Button
+            android:id="@+id/btn_level_1"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btn_level_2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btn_level_3"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="5dp"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
+
+        <Button
+            android:id="@+id/btn_level_4"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
+    </LinearLayout>
 </LinearLayout>

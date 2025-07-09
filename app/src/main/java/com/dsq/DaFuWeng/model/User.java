@@ -22,6 +22,8 @@ public class User implements Serializable {
         this.createTime = createTime;
     }
 
+
+
     // Getter和Setter（仅保留现有字段）
     public String getId() { return id; }
     public void setId(String id) { this.id = id; }

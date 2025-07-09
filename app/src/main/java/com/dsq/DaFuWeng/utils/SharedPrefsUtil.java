@@ -59,6 +59,25 @@ public class SharedPrefsUtil {
         }
     }
 
+
+    // 保存用户信息
+    public void onLoginSuccess(User user) {
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("user_id", user.getId());
+        editor.putString("user_phone", user.getPhone());
+        editor.putFloat("user_balance", (float) user.getBalance());
+        editor.apply();
+    }
+
+    // SharedPrefsUtil.java 中添加
+    public User getUser() {
+        User user = new User();
+        user.setId(sharedPreferences.getString("user_id", ""));
+        user.setPhone(sharedPreferences.getString("user_phone", ""));
+        user.setBalance(sharedPreferences.getFloat("user_balance", 0f));
+        return user;
+    }
+
     // 保存用户完整信息
     public void saveUser(User user) {
         if (user == null) return;
@@ -117,11 +136,7 @@ public class SharedPrefsUtil {
         return sharedPreferences.getBoolean("is_logged_in", false);
     }
 
-    // 登录时调用
-    public void onLoginSuccess(User user) {
-        saveUser(user);
-        setLoggedIn(true);
-    }
+
 
     // 退出登录时调用
     public void onLogout() {
