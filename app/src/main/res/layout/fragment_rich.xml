@@ -8,11 +8,11 @@
     <!-- 总参与人数 -->
     <TextView
         android:id="@+id/tv_total_participants"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="大富翁总参与: 0人"
-        android:textSize="16sp"
-        android:layout_marginBottom="16dp"/>
+        android:padding="10dp"
+        android:textColor="@android:color/white"
+    android:textSize="14sp"/>
 
 
     <!-- 参与者列表 -->
@@ -41,23 +41,39 @@
 
         <Button
             android:id="@+id/btn_level_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+        android:background="@color/colorPrimary"
+        android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/btn_level_2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/btn_level_3"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
 
         <Button
             android:id="@+id/btn_level_4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:textColor="@android:color/white"/>
     </LinearLayout>
 
 
